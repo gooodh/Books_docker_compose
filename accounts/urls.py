@@ -1,7 +1,9 @@
-from django.urls import path
-from .views import SignupPageView
+# from django.urls import path
+# from .views import SignupPageView
 
 
-urlpatterns = [
-    path('signup/', SignupPageView.as_view(), name='signup'),
-    ]
+# urlpatterns = [
+#     path('signup/', SignupPageView.as_view(), name='signup'),
+#     ]
+# были созданы исключительно для нашей рукописной страницы регистрации и
+# больше не используются
