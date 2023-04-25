@@ -13,6 +13,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
+from environs import Env
+env = Env() # new
+env.read_env() # new
+
+SECRET_KEY = env("DJANGO_SECRET_KEY")
+DEBUG = env.bool("DJANGO_DEBUG")
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,9 +31,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@16-ebmc&6$33skoq*ye!+3mu(6-os^rkrz6j%ch=e6&wc01m8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+# DEBUG = os.getenv('DEBUG_ENV', True)
+
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1'] # new
 
 
 # Application definition
