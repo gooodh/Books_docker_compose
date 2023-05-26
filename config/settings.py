@@ -17,8 +17,8 @@ from environs import Env
 env = Env() # new
 env.read_env() # new
 
-SECRET_KEY = env("DJANGO_SECRET_KEY")
-DEBUG = env.bool("DJANGO_DEBUG")
+SECRET_KEY = env("DJANGO_SECRET_KEY", 'django-insecure-@16-ebmc&6$33skoq*ye!+3mu(6-os^rkrz6j%ch=e6&wc01m8')
+DEBUG = env.bool("DJANGO_DEBUG", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@16-ebmc&6$33skoq*ye!+3mu(6-os^rkrz6j%ch=e6&wc01m8'
+# SECRET_KEY = 'django-insecure-@16-ebmc&6$33skoq*ye!+3mu(6-os^rkrz6j%ch=e6&wc01m8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     # Local
     'accounts',
     'pages',
+    'books', # new
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser' # new

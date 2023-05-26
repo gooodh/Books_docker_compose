@@ -22,3 +22,4 @@ git commit -m 'ch6 - about, About Page, install crispy-bootstrap4 and django-cri
 
 pip install environs
 
+python manage.py startapp books
