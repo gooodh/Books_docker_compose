@@ -8,7 +8,7 @@ sudo docker-compose up -d --remove-orphans
 sudo docker-compose up -d --build
 sudo docker-compose up -d
 sudo docker-compose exec web python manage.py startapp accounts
-sudo docker-compose exec web python manage.py makemigrations accounts
+sudo docker-compose exec web python manage.py makemigrations books
 sudo docker-compose exec web python manage.py migrate
 sudo docker-compose exec web python manage.py createsuperuser
 sudo docker-compose exec web python manage.py test
@@ -24,3 +24,5 @@ git push
 pip install environs
 
 python manage.py startapp books
+ch10 Django + Postgres + UUID https://django.fun/en/qa/47490/(по книги не пошли миграции)
+
