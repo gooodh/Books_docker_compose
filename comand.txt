@@ -26,3 +26,5 @@ pip install environs
 python manage.py startapp books
 ch10 Django + Postgres + UUID https://django.fun/en/qa/47490/(по книги не пошли миграции)
 
+pip install Pillow
+
