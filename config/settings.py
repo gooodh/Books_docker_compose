@@ -14,8 +14,8 @@ from pathlib import Path
 import os
 
 from environs import Env
-env = Env() # new
-env.read_env() # new
+env = Env()  # new
+env.read_env()  # new
 
 SECRET_KEY = env("DJANGO_SECRET_KEY", 'django-insecure-@16-ebmc&6$33skoq*ye!+3mu(6-os^rkrz6j%ch=e6&wc01m8')
 DEBUG = env.bool("DJANGO_DEBUG", True)
@@ -35,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # DEBUG = os.getenv('DEBUG_ENV', True)
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1'] # new
+ALLOWED_HOSTS = ['.herokuapp.com', 'localhost', '127.0.0.1']  # new
 
 
 # Application definition
@@ -47,40 +47,40 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites', # new
+    'django.contrib.sites',  # new
     # Third-party
-    'crispy_forms', # new
+    'crispy_forms',  # new
     'crispy_bootstrap4',
-    'allauth', # new
-    'allauth.account', # new
+    'allauth',  # new
+    'allauth.account',  # new
     # Local
     'accounts',
     'pages',
-    'books', # new
+    'books',  # new
 ]
 
-AUTH_USER_MODEL = 'accounts.CustomUser' # new
+AUTH_USER_MODEL = 'accounts.CustomUser'  # new
 LOGIN_REDIRECT_URL = 'home'
-ACCOUNT_LOGOUT_REDIRECT = 'home' # new
+ACCOUNT_LOGOUT_REDIRECT = 'home'  # new
 
 # django-crispy-forms
-CRISPY_TEMPLATE_PACK = 'bootstrap4' # new
+CRISPY_TEMPLATE_PACK = 'bootstrap4'  # new
 
 # django-allauth config
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (
 'django.contrib.auth.backends.ModelBackend',
-'allauth.account.auth_backends.AuthenticationBackend', # new
+'allauth.account.auth_backends.AuthenticationBackend',  # new
 )
 ACCOUNT_SESSION_REMEMBER = True # new
 ACCOUNT_USERNAME_REQUIRED = False # new
-ACCOUNT_AUTHENTICATION_METHOD = 'email' # new
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # new
 ACCOUNT_EMAIL_REQUIRED = True # new
 ACCOUNT_UNIQUE_EMAIL = True # new
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # new
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # new
 
 MEDIA_URL = '/media/' # new
-MEDIA_ROOT = str(BASE_DIR.joinpath('media')) # new
+MEDIA_ROOT = str(BASE_DIR.joinpath('media'))  # new
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -119,12 +119,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.getenv('POSTGRES_HOST', 'db_books'), 
+        'HOST': os.getenv('POSTGRES_HOST', 'db_books'),
         'PORT': os.getenv('POSTGRES_PORT', 5432),
         'USER': os.getenv('POSTGRES_USER', 'postgres'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'NAME': os.getenv('POSTGRES_DB', 'postgres'),        
-    }
+        'NAME': os.getenv('POSTGRES_DB', 'postgres'),
+        }
 }
 
 
@@ -164,8 +164,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),) # new
-STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) # new
+STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)  # new
+STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))  # new
 
 STATICFILES_FINDERS = [
 "django.contrib.staticfiles.finders.FileSystemFinder",
