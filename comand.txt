@@ -28,3 +28,4 @@ ch10 Django + Postgres + UUID https://django.fun/en/qa/47490/(по книги н
 
 pip install Pillow
 
+pip install django-debug-toolbar

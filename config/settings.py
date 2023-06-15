@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import socket
+
 
 from environs import Env
 env = Env()  # new
@@ -53,6 +55,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     'allauth',  # new
     'allauth.account',  # new
+    'debug_toolbar',  # new
     # Local
     'accounts',
     'pages',
@@ -83,6 +86,7 @@ MEDIA_URL = '/media/' # new
 MEDIA_ROOT = str(BASE_DIR.joinpath('media'))  # new
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',  # new
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -90,6 +94,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',  # new
+    'django.middleware.cache.FetchFromCacheMiddleware',  # new
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -177,3 +183,12 @@ STATICFILES_FINDERS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEFAULT_FROM_EMAIL = 'admin@djangobookstore.com'
+
+# django-debug-toolbar
+
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
+
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 600
+CACHE_MIDDLEWARE_KEY_PREFIX = ''
