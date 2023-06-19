@@ -6,6 +6,7 @@ pip install psycopg2
 
 sudo docker-compose up -d --remove-orphans
 sudo docker-compose up -d --build
+sudo docker-compose -f docker-compose-prod.yml up -d --build
 sudo docker-compose up -d
 sudo docker-compose exec web python manage.py startapp accounts
 sudo docker-compose exec web python manage.py makemigrations books
@@ -29,3 +30,8 @@ ch10 Django + Postgres + UUID https://django.fun/en/qa/47490/(по книги н
 pip install Pillow
 
 pip install django-debug-toolbar
+
+sudo docker-compose exec web python -c 'import secrets; print(secrets.token_urlsafe(38))'
+
+gunicorn-20.1.0
+

@@ -22,8 +22,8 @@ from django.conf.urls.static import static  # new
 
 
 urlpatterns = [
-# Django admin
-    path('admin/', admin.site.urls),
+
+    path('anything-but-admin/', admin.site.urls),  # Django admin
 # User management
     # path('accounts/', include('django.contrib.auth.urls')),были созданы исключительно для нашей рукописной страницы регистрации и
 # больше не используются.
