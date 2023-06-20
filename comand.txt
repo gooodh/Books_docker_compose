@@ -35,3 +35,6 @@ sudo docker-compose exec web python -c 'import secrets; print(secrets.token_urls
 
 gunicorn-20.1.0
 
+
+sudo docker build -t books_m .
+
