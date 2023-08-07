@@ -8,19 +8,30 @@ sudo docker-compose up -d --remove-orphans
 sudo docker-compose up -d --build
 sudo docker-compose -f docker-compose-prod.yml up -d --build
 sudo docker-compose up -d
+sudo docker-compose down
 sudo docker-compose exec web python manage.py startapp accounts
 sudo docker-compose exec web python manage.py makemigrations books
 sudo docker-compose exec web python manage.py migrate
-sudo docker-compose exec web python manage.py createsuperuser
+sudo docker-compose exec web python manage.py createsuperuser admin stqhJQmh admin@books.bo
 sudo docker-compose exec web python manage.py test
 sudo docker-compose exec web python manage.py test pages
 sudo docker-compose logs
-sudo docker-compose down
+docker-compose exec nginx bash
+docker exec -it django bash
 sudo docker-compose exec web python manage.py startapp pages
+docker ps -a
+docker stop 
+docker container prune
+sudo docker build -t books_m .
+docker exec -it books_docker_compose_nginx_1 cat /etc/nginx/conf.d/default.conf
+
 git status
 git add .
 git commit -m 'ch6 - about, About Page, install crispy-bootstrap4 and django-crispy-forms'
 git push
+git branch soaqaz_prod
+git checkout soaqaz_prod
+git push --set-upstream origin soaqaz_prod
 
 pip install environs
 
@@ -34,7 +45,10 @@ pip install django-debug-toolbar
 sudo docker-compose exec web python -c 'import secrets; print(secrets.token_urlsafe(38))'
 
 gunicorn-20.1.0
+gunicorn -b 0.0.0.0:8000 config.wsgi:application
 
 
-sudo docker build -t books_m .
+
+
+
 

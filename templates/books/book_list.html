@@ -1,9 +1,13 @@
 {% extends '_base.html' %}
-{% block title %}Books{% endblock title %}
+{% block title %}Search{% endblock title %}
 {% block content %}
-{% for book in object_list %}
+<h1>Работы Ferum</h1>
+{% for book in book_list %}
 <div>
-    <h2><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h2>
+    <img class="bookcover" src="{{ book.cover.url}}" alt="{{ book.title }}">
+    <h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
+    <p>Author: {{ book.author }}</p>
+    <p>Price: $ {{ book.price }}</p>
 </div>
 {% endfor %}
 {% endblock content %}

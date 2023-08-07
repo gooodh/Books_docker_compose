@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 import socket
-import os.path
 
 
 from environs import Env
@@ -14,7 +13,7 @@ DEBUG = True
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_HOSTS = ['93.189.147.166', '92.168.43.163', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['93.189.147.166', 'localhost', '127.0.0.1']  # new
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -29,7 +28,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     'allauth',  # new
     'allauth.account',  # new
-    # 'debug_toolbar',  # new
+    'debug_toolbar',  # new
     # Local
     'accounts',
     'pages',
@@ -50,13 +49,15 @@ AUTHENTICATION_BACKENDS = (
 'allauth.account.auth_backends.AuthenticationBackend',  # new
 )
 
-ACCOUNT_SESSION_REMEMBER = True  # new
-ACCOUNT_USERNAME_REQUIRED = False  # new
+ACCOUNT_SESSION_REMEMBER = True # new
+ACCOUNT_USERNAME_REQUIRED = False # new
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # new
-ACCOUNT_EMAIL_REQUIRED = True  # new
-ACCOUNT_UNIQUE_EMAIL = True  # new
+ACCOUNT_EMAIL_REQUIRED = True # new
+ACCOUNT_UNIQUE_EMAIL = True # new
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # new
 
+MEDIA_URL = '/media/' # new
+MEDIA_ROOT = str(BASE_DIR.joinpath('media'))  # new
 
 MIDDLEWARE = [
     'django.middleware.cache.UpdateCacheMiddleware',  # new
@@ -67,7 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',  # new
+    'debug_toolbar.middleware.DebugToolbarMiddleware',  # new
     'django.middleware.cache.FetchFromCacheMiddleware',  # new
 ]
 
@@ -76,7 +77,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [str(BASE_DIR.joinpath('templates'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -103,15 +104,15 @@ DATABASES = {
 }
 
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': '123456789qwert',
-#         'HOST': 'db_books',
-#         'PORT': '5432'
-#             }
-#     }
+# 'default': {
+# 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+# 'NAME': 'postgres',
+# 'USER': 'postgres',
+# 'PASSWORD': '123456789qwert',
+# 'HOST': 'db_books',
+# 'PORT': '5432'
+# }
+# }
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -137,20 +138,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-
 STATIC_ROOT = 'staticfiles'
+STATIC_URL = 'static/'
 
-# STATIC_ROOT = ''
 
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'staticfiles'),
-)
+STATICFILES_DIRS=[(os.path.join(BASE_DIR,'static'))]
 
 
 STATICFILES_FINDERS = [

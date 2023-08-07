@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include 
+from django.urls import path, include
 from django.conf import settings  # new
 from django.conf.urls.static import static  # new
 
@@ -27,14 +27,17 @@ urlpatterns = [
 # User management
     # path('accounts/', include('django.contrib.auth.urls')),были созданы исключительно для нашей рукописной страницы регистрации и
 # больше не используются.
-    path('accounts/', include('allauth.urls')), # new
+    path('accounts/', include('allauth.urls')),  # new
 # Local apps
     # path('accounts/', include('accounts.urls')), # new
     path('', include('pages.urls')),
     path('books/', include('books.urls')), # new
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # new
-if settings.DEBUG:  # new
-    import debug_toolbar
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+] #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # new
+
+# if settings.DEBUG:  # new
+#     import debug_toolbar
+#     urlpatterns = [
+#         path('__debug__/', include(debug_toolbar.urls)),
+#     ] + urlpatterns
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

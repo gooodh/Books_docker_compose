@@ -13,7 +13,6 @@ services:
         depends_on:
             - db_books
         command: python /code/manage.py runserver 0.0.0.0:8000
-                command: bash -c "python ./manage.py collectstatic --noinput && python manage.py migrate && gunicorn -b 0.0.0.0:8000, config.wsgi:application"
 
         volumes:
         - .:/code
