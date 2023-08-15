@@ -1,7 +1,8 @@
 
 
 from django.urls import path
-from .views import BookListView, BookDetailView, SearchResultsListView, post_create  # new
+from .views import (BookListView, BookDetailView, SearchResultsListView,
+                    BookCreate)  # new
 
 
 urlpatterns = [
@@ -9,5 +10,5 @@ urlpatterns = [
     path('<uuid:pk>/', BookDetailView.as_view(), name='book_detail'),
     path('search/', SearchResultsListView.as_view(), name='search_results'),  # new
     # path('create/', CreateWork.as_view(), name='create'),  # new когда использую класс
-    path('create/', post_create, name='create'),  # new
+    path('create/', BookCreate.as_view(), name='create'),  # new
 ]

@@ -1,11 +1,11 @@
 
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)  # new
-from django.views.generic import ListView, DetailView  # new
+from django.views.generic import ListView, DetailView, CreateView  # new
 from django.shortcuts import render, redirect  # new
 from .models import Book
 from django.db.models import Q  # new
-from .forms import WorkForm
+from .forms import BookForm
 
 
 class BookListView(LoginRequiredMixin, ListView):
@@ -32,21 +32,18 @@ class SearchResultsListView(ListView):  # new
         query = self.request.GET.get('q')
         return Book.objects.filter(
             Q(title__icontains=query) | Q(author__icontains=query))
-        
-
-# class CreateWork(ListView):  # работает незнаю как добавить формы
-#     model = Book
-#     template_name = 'books/create.html'
 
 
-def post_create(request):
-    if request.method == 'POST':
-        form = WorkForm(request.POST)
-        if form.is_valid():
-            form.save()
-            redirect('home')
-    form = WorkForm()
-    context = {
-        'form': form
-    }
-    return render(request, 'books/create.html', context)
+class BookCreate(CreateView):
+    # Модель куда выполняется сохранение
+    model = Book
+    # Класс на основе которого будет валидация полей
+    form_class = BookForm
+    # Выведем все существующие записи на странице
+    extra_context = {'books': Book.objects.all()}
+    # Шаблон с помощью которого
+    # будут выводиться данные
+    template_name = 'books/create.html'
+    # На какую страницу будет перенаправление
+    # в случае успешного сохранения формы
+    success_url = '/books/create/'

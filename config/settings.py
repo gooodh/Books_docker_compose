@@ -10,11 +10,12 @@ env.read_env()  # new
 
 SECRET_KEY = env("DJANGO_SECRET_KEY", 'django-insecure-@16-ebmc&6$33skoq*ye!+3mu(6-os^rkrz6j%ch=e6&wc01m8')
 # DEBUG = env.bool("DJANGO_DEBUG", True)
-DEBUG = True 
+DEBUG = True
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_HOSTS = ['93.189.147.166', '92.168.43.163', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['93.189.147.166', '92.168.43.163', 'localhost', '127.0.0.1',
+                 '192.168.0.108', '0.0.0.0']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',  # new
     'django.contrib.staticfiles',
     'django.contrib.sites',  # new
     # Third-party
@@ -69,7 +71,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'debug_toolbar.middleware.DebugToolbarMiddleware',  # new
     'django.middleware.cache.FetchFromCacheMiddleware',  # new
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # new
 ]
+
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 6
+CACHE_MIDDLEWARE_KEY_PREFIX = ''
 
 ROOT_URLCONF = 'config.urls'
 
@@ -141,17 +148,13 @@ USE_TZ = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-
 STATIC_ROOT = 'staticfiles'
-
-# STATIC_ROOT = ''
-
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'staticfiles'),
 )
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_FINDERS = [
 "django.contrib.staticfiles.finders.FileSystemFinder",

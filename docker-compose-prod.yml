@@ -1,40 +1,28 @@
 version: '3.9'
 
 services:
+    db_books:
+        image: postgres:15
+        container_name: db_books
+        volumes:
+            - ~/.pg/postgres_data/boooks:/var/lib/postgresql/data/
+        env_file:
+            - .env
     web:
         build: .
-        # image: books_m:latest
         container_name: "django"
-        # command: python /code/manage.py migrate
         # command: python /code/manage.py runserver 0.0.0.0:8000
         command: gunicorn config.wsgi -b 0.0.0.0:8000 # new
         volumes:
-        - .:/code
+        - static_volume:/code/static
+        - media_volume:/code/media
         expose:
-        - 8000
+            - 8000
         depends_on:
-        - db_books
-        environment:
-        # - static_volume:/code/static
-        # - media_volume:/code/media
-        - "DJANGO_SECRET_KEY=)*_s#exg*#w+#-xt=vu8b010%%a&p@4edwyj0=(nqq90b9a8*n"
-        - "DJANGO_DEBUG=True"
-        - "DJANGO_SECURE_SSL_REDIRECT=False" # new
-        - "DJANGO_SECURE_HSTS_SECONDS=0" # new
-        - "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False" # new
-        - "DJANGO_SECURE_HSTS_PRELOAD=False" # new
-        - "DJANGO_SESSION_COOKIE_SECURE=False" # new
-        - "DJANGO_CSRF_COOKIE_SECURE=False" # new
+            - db_books
 
-    db_books:
-        image: postgres:15
-        container_name: "POSTGRES_DB"
-        volumes:
-        - pg_data:/var/lib/postgresql/data/
-        # expose:
-        #     - 5432
-        environment:
-        - "POSTGRES_HOST_AUTH_METHOD=trust"
+        env_file:
+            - .env
     nginx:
         image: nginx
         container_name: "nginx"
@@ -48,6 +36,5 @@ services:
             - 80:80
 
 volumes:
-    pg_data:
     static_volume:
     media_volume:
