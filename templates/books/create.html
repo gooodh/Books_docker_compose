@@ -11,13 +11,18 @@
 </form>
 
 <!-- Выводим уже созданные записи -->
+
+
 {% for b in books %}
 <p>{{ b.title }}</p>
-<img src="{{ b.cover.url }}" width="200px">
+{% if b.cover %}
+<img src="{{ b.cover.url }}" width="200px"> -->
+
 <!-- Выводим размер картинки -->
 <p>Оригинальный размер картинки  {{ b.cover.width }}x{{ b.cover.height }}</p>
 <br/>
 <a href="{{ b.cover.url }}">{{ b.title }}</a>
+{% endif %}
 {% endfor %}
 
 {% endblock content %}

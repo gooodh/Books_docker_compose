@@ -8,19 +8,19 @@ from django.db.models import Q  # new
 from .forms import BookForm
 
 
-class BookListView(LoginRequiredMixin, ListView):
+class BookListView(ListView):
     model = Book
     context_object_name = 'book_list'  # new
     template_name = 'books/book_list.html'
-    login_url = 'account_login'  # new
+    # login_url = 'account_login'  # new
 
 
-class BookDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class BookDetailView(DetailView):
     model = Book
     context_object_name = 'book'
     template_name = 'books/book_detail.html'
-    login_url = 'account_login'  # new
-    permission_required = 'books.special_status'  # new
+    # login_url = 'account_login'  # new
+    # permission_required = 'books.special_status'  # new
 
 
 class SearchResultsListView(ListView):  # new
@@ -34,7 +34,7 @@ class SearchResultsListView(ListView):  # new
             Q(title__icontains=query) | Q(author__icontains=query))
 
 
-class BookCreate(CreateView):
+class BookCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     # Модель куда выполняется сохранение
     model = Book
     # Класс на основе которого будет валидация полей
@@ -47,3 +47,5 @@ class BookCreate(CreateView):
     # На какую страницу будет перенаправление
     # в случае успешного сохранения формы
     success_url = '/books/create/'
+    login_url = 'account_login'  # new
+    permission_required = 'books.special_status'
