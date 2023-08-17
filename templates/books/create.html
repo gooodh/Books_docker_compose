@@ -13,16 +13,18 @@
 <!-- Выводим уже созданные записи -->
 
 
-{% for b in books %}
-<p>{{ b.title }}</p>
-{% if b.cover %}
-<img src="{{ b.cover.url }}" width="200px"> -->
+{% for book in books %}
+<h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
+{% if book.cover %}
+<img src="{{ book.cover.url }}" width="200px"> -->
 
 <!-- Выводим размер картинки -->
-<p>Оригинальный размер картинки  {{ b.cover.width }}x{{ b.cover.height }}</p>
+<p>Оригинальный размер картинки  {{ book.cover.width }}x{{ book.cover.height }}</p>
 <br/>
-<a href="{{ b.cover.url }}">{{ b.title }}</a>
 {% endif %}
+<p>Author: {{ book.author }}</p>
+<p>Price: $ {{ book.price }}</p>
+<p>______________________________________</p>
 {% endfor %}
 
 {% endblock content %}
