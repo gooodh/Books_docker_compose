@@ -15,7 +15,7 @@ SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_HOSTS = ['93.189.147.166', '92.168.43.163', 'localhost', '127.0.0.1',
+ALLOWED_HOSTS = ['93.189.147.166', 'ferum-dsg.ru', 'localhost', '127.0.0.1',
                  '192.168.0.108', '0.0.0.0']
 
 INSTALLED_APPS = [

@@ -1,0 +1,71 @@
+version: '3.9'
+
+services:
+    db_books:
+        image: postgres:15
+        container_name: db_books
+        volumes:
+            - ~/.pg/postgres_data/boooks:/var/lib/postgresql/data/
+        env_file:
+            - .env
+    web:
+        build: .
+        container_name: "django"
+        # command: python /code/manage.py runserver 0.0.0.0:8000
+        command: gunicorn config.wsgi -b 0.0.0.0:8000 # new
+        volumes:
+        - static_volume:/code/static
+        - media_volume:/code/media
+        expose:
+            - 8000
+        depends_on:
+            - db_books
+        environment:
+        - static_volume:/code/static
+        - media_volume:/code/media
+        - "DJANGO_SECRET_KEY=)*_s#exg*#w+#-xt=vu8b010%%a&p@4edwyj0=(nqq90b9a8*n"
+        - "DJANGO_DEBUG=True"
+        - "DJANGO_SECURE_SSL_REDIRECT=False" # new
+        - "DJANGO_SECURE_HSTS_SECONDS=0" # new
+        - "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False" # new
+        - "DJANGO_SECURE_HSTS_PRELOAD=False" # new
+        - "DJANGO_SESSION_COOKIE_SECURE=False" # new
+        - "DJANGO_CSRF_COOKIE_SECURE=False" # new
+
+    nginx:
+        image: nginx
+        container_name: "nginx"
+        volumes:
+        - static_volume:/code/static
+        - media_volume:/code/media
+        - ./nginx-conf.d:/etc/nginx/conf.d
+         - certbot_certs:/etc/letsencrypt
+        - ./docker/certbot/www:/var/www/.well-known/acme-challenge:rw
+        depends_on:
+            - web
+        ports:
+            - 80:80
+            - 443:443
+        env_file:
+            - .env
+
+    certbot:
+        image: certbot/certbot:latest
+        container_name: certbot
+        depends_on:
+            - nginx
+        volumes:
+         - certbot_certs:/etc/letsencrypt
+         - ./docker/certbot/www:/var/www/.well-known/acme-challenge:rw
+
+
+        # command: certonly --webroot --webroot-path=/var/www --email s.b.nikuliny@gmail.com--agree-tos --no-eff-email -d ferum-dsg.ru
+        command: certonly -v --dry-run --webroot --webroot-path=/var/www
+                --preferred-challenges http-01 --email s.b.nikuliny@gmail.com
+                --agree-tos --no-eff-email --non-interactive --force-renewal
+                -d ferum-dsg.ru
+
+volumes:
+    certbot_certs:
+    static_volume:
+    media_volume:
