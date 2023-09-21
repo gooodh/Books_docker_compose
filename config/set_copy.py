@@ -8,15 +8,14 @@ from environs import Env
 env = Env()  # new
 env.read_env()  # new
 
-SECRET_KEY = env("DJANGO_SECRET_KEY", 'ImzhuOOUoZKeo6OMTCUtaMXtBUK5FV02EfbhEpJbx8dHmCnWxNc')
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = env.bool("DJANGO_DEBUG", False)
 SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
 # DEBUG = True
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ALLOWED_HOSTS = ['93.189.147.166', 'ferum-dsg.ru', 'localhost', '127.0.0.1',
-                 '192.168.0.108', '0.0.0.0']
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -24,7 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'whitenoise.runserver_nostatic',  # new
+    'whitenoise.runserver_nostatic',  # new
     'django.contrib.staticfiles',
     'django.contrib.sites',  # new
     # Third-party
@@ -60,7 +59,6 @@ ACCOUNT_EMAIL_REQUIRED = True  # new
 ACCOUNT_UNIQUE_EMAIL = True  # new
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # new
 
-
 MIDDLEWARE = [
     'django.middleware.cache.UpdateCacheMiddleware',  # new
     'django.middleware.security.SecurityMiddleware',
@@ -72,7 +70,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'debug_toolbar.middleware.DebugToolbarMiddleware',  # new
     'django.middleware.cache.FetchFromCacheMiddleware',  # new
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',  # new
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # new
 ]
 
 CACHE_MIDDLEWARE_ALIAS = 'default'
@@ -80,8 +78,7 @@ CACHE_MIDDLEWARE_SECONDS = 6
 CACHE_MIDDLEWARE_KEY_PREFIX = ''
 
 SECURE_HSTS_SECONDS = env.int("DJANGO_SECURE_HSTS_SECONDS", default=2592000)
-SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool(
-    "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True)
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True)
 SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=True)
 
 SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=True)
@@ -118,18 +115,6 @@ DATABASES = {
         }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': '123456789qwert',
-#         'HOST': 'db_books',
-#         'PORT': '5432'
-#             }
-#     }
-
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -155,23 +140,26 @@ USE_TZ = True
 
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
-STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))  # new
-
-# STATICFILES_FINDERS = [  # new
-#     "django.contrib.staticfiles.finders.FileSystemFinder",
-#     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-# ]
+STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) # new
 
 
+# STATIC_ROOT = 'staticfiles'
+# STATIC_URL = '/static/'
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'staticfiles'),
+# )
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-
+STATICFILES_FINDERS = [
+"django.contrib.staticfiles.finders.FileSystemFinder",
+"django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -183,3 +171,4 @@ hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') # new
+

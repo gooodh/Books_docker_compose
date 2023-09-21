@@ -16,7 +16,7 @@
 {% for book in books %}
 <h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
 {% if book.cover %}
-<img src="{{ book.cover.url }}" width="200px"> -->
+<img src="{{ book.cover.url }}" width="200px"> 
 
 <!-- Выводим размер картинки -->
 <p>Оригинальный размер картинки  {{ book.cover.width }}x{{ book.cover.height }}</p>
@@ -28,4 +28,3 @@
 {% endfor %}
 
 {% endblock content %}
-

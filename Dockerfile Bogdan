@@ -8,20 +8,24 @@ RUN pip install --upgrade pip
 RUN apt update
 RUN apt -qy install gcc libjpeg-dev libxslt-dev libpq-dev libmariadb-dev libmariadb-dev-compat gettext cron openssh-client flake8
 
-RUN useradd -rms /bin/bash bookm && chmod 777 /opt/run
+RUN useradd -rms /bin/bash bookm
+RUN chmod 777 /opt /run
 
 WORKDIR /code
-# RUN mkdir /code/ctatic && mkdir /code/media && chown -R bookm:bookm /code && chmod 755 /code
+RUN mkdir /code/static 
+RUN mkdir /code/media
+RUN mkdir /code/media/covers
+RUN chown -R bookm:bookm /code && chmod 755 /code
 
-COPY . /code/
+COPY requirements.txt /code/
 
 RUN pip install -r requirements.txt
 
-EXPOSE 8000
-
+COPY --chown=bookm:bookm . .
 USER bookm
 
-CMD  python /code/manage.py migrate
+
+
 
 
 

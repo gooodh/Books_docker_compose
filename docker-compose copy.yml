@@ -4,34 +4,24 @@ services:
     web:
         build: .
         container_name: "django"
-        # command: python /code/manage.py runserver  --insecure 0.0.0.0:8000
         command: gunicorn config.wsgi -b 0.0.0.0:8000 # new
         volumes:
-        - .:/code
+        - static_volume:/code/static
+        - media_volume:/code/media
         expose:
         - 8000
         depends_on:
         - db_books
-        environment:
-        - static_volume:/code/static
-        - media_volume:/code/media
-        - "DJANGO_SECRET_KEY=)*_s#exg*#w+#-xt=vu8b010%%a&p@4edwyj0=(nqq90b9a8*n"
-        - "DJANGO_DEBUG=False"
-        - "DJANGO_SECURE_SSL_REDIRECT=False" # new
-        - "DJANGO_SECURE_HSTS_SECONDS=0" # new
-        - "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False" # new
-        - "DJANGO_SECURE_HSTS_PRELOAD=False" # new
-        - "DJANGO_SESSION_COOKIE_SECURE=False" # new
-        - "DJANGO_CSRF_COOKIE_SECURE=False" # new
+        env_file:
+            - .env
 
     db_books:
         image: postgres:15
         container_name: "POSTGRES_DB"
         volumes:
         - pg_books:/var/lib/postgresql/data/
-
-        environment:
-        - "POSTGRES_HOST_AUTH_METHOD=trust"
+        env_file:
+            - .env
     nginx:
         image: nginx
         container_name: "nginx"
