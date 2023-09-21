@@ -8,6 +8,7 @@ services:
             - ~/.pg/postgres_data/boooks:/var/lib/postgresql/data/
         env_file:
             - .env
+        restart: always
     web:
         build: .
         container_name: "django"
@@ -23,6 +24,7 @@ services:
 
         env_file:
             - .env
+        restart: always
     nginx:
         build: 
             dockerfile: ./Dockerfile
@@ -36,6 +38,7 @@ services:
             - web
         ports:
             - 80:80
+        restart: always
 
 volumes:
     static_volume:
