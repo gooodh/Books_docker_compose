@@ -15,7 +15,7 @@ services:
         # command: python /book/manage.py runserver 0.0.0.0:8000
         command: gunicorn config.wsgi -b 0.0.0.0:8000 # new
         volumes:
-        - static_volume:/book/static
+        - static_volume:/book/staticfiles
         - media_volume:/book/media
         ports:
             - 8000:8000
@@ -31,7 +31,7 @@ services:
             context: ./docker/nginx
         container_name: "nginx"
         volumes:
-        - static_volume:/book/static
+        - static_volume:/book/staticfiles
         - media_volume:/book/media
 
         depends_on:

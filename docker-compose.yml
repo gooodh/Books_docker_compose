@@ -4,19 +4,19 @@ services:
     web:
         build: .
         container_name: "django"
-        # command: python /code/manage.py runserver  --insecure 0.0.0.0:8000
-        command: gunicorn config.wsgi -b 0.0.0.0:8000 # new
+        command: python /book/manage.py runserver  --insecure 0.0.0.0:8000
+        # command: gunicorn config.wsgi -b 0.0.0.0:8000 # new
         volumes:
-        - .:/code
-        expose:
-        - 8000
+        - .:/book
+        ports:
+            - 8000:8000
         depends_on:
         - db_books
         environment:
-        - static_volume:/code/static
-        - media_volume:/code/media
+        - static_volume:/book/static
+        - media_volume:/book/media
         - "DJANGO_SECRET_KEY=)*_s#exg*#w+#-xt=vu8b010%%a&p@4edwyj0=(nqq90b9a8*n"
-        - "DJANGO_DEBUG=False"
+        - "DJANGO_DEBUG=True"
         - "DJANGO_SECURE_SSL_REDIRECT=False" # new
         - "DJANGO_SECURE_HSTS_SECONDS=0" # new
         - "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False" # new
@@ -36,8 +36,8 @@ services:
         image: nginx
         container_name: "nginx"
         volumes:
-        - static_volume:/code/static
-        - media_volume:/code/media
+        - static_volume:/book/static
+        - media_volume:/book/media
         - ./nginx-conf.d:/etc/nginx/conf.d
         depends_on:
             - web

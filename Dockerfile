@@ -1,4 +1,4 @@
-FROM python:3.10 
+FROM python:3.10
 
 SHELL ["/bin/bash", "-c"]
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -12,7 +12,7 @@ RUN useradd -rms /bin/bash book
 RUN chmod 777 /opt /run
 
 WORKDIR /book
-RUN mkdir /book/static 
+RUN mkdir /book/staticfiles
 RUN mkdir /book/media
 RUN chown -R book:book /book && chmod 755 /book
 
@@ -23,6 +23,7 @@ RUN pip install -r requirements.txt
 COPY --chown=book:book . .
 USER book
 RUN python ./manage.py collectstatic --noinput
+
 
 
 
